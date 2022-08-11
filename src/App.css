@@ -1,0 +1,87 @@
+.Form {
+  /* text-align: center; */
+  justify-content: center;
+  display: flex;
+  /* padding-top: 90px; */
+  /* padding-bottom: 90px; */
+  /* background-color: #e1e3eb; */
+}
+.sub-main {
+  margin-top: 18vh;
+  /* justify-content: center; */
+  height: 450px;
+  width: 40vh;
+  box-shadow: 4px 5px 6px 7px rgb(138, 138, 138);
+  padding: 10px;
+  border-radius: 10px;
+  background-color: white;
+  /* border-bottom: 1px solid #b103fc; */
+}
+.createhr {
+  height: 300px;
+  border-bottom: 1px solid #b103fc;
+}
+h2 {
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #b103fc;
+}
+label {
+  float: left;
+  /* margin-left: 35px; */
+}
+.name {
+  font-size: 14px;
+  padding: 5px;
+  width: 30vh;
+}
+button {
+  padding: 10px;
+  height: 35px;
+  border-radius: 10px;
+  background-color: #b103fc;
+  color: white;
+  font-size: 16px;
+  border: none;
+}
+.login-button {
+  margin-right: 10px;
+  padding-top: 25px;
+}
+.login-button button {
+  width: 90px;
+}
+.signUp-button {
+  float: right;
+}
+.create-button {
+  margin-top: 5px;
+  padding-right: 20px;
+  float: right;
+}
+.createJob-button {
+  float: right;
+}
+.home button {
+  width: 90px;
+  margin-top: 5px;
+}
+.admin-button {
+  text-align: center;
+  justify-content: center;
+
+  margin-top: 80px;
+  height: 35px;
+}
+
+.admin-button button {
+  width: 200px;
+}
+.forgotPassword {
+  margin-top: 10px;
+  display: flex;
+}
+
+.hr-design {
+  color: green;
+}
