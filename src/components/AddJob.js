@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { JobApi } from "./JobApi";
 import { toast } from "react-toastify";
 
+
 const jobApi = new JobApi();
 function AddJob() {
   const [formState, setFormState] = useState({});
@@ -18,15 +19,20 @@ function AddJob() {
   async function addJob(formState) {
     const response = await jobApi.addJobs(formState);
     const messageResponse = response.data;
-    // if (messageResponse.responseType === "SUCCESS") {
-    //   toast.success(messageResponse.message);
-    // }
+     if (messageResponse.responseType === "SUCCESS") {
+       toast.success(messageResponse.message);
+   }
+   else{
+    toast.warning(messageResponse.message);
+   }
   }
+  
   const navigate = useNavigate();
   function returnListPage(e) {
     e.preventDefault();
-    navigate("/ListJob");
     addJob(formState);
+    navigate("/ListJob");
+    
   }
   function returnHomePage(e) {
     e.preventDefault();
