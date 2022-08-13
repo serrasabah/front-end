@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Navigate, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { LoginApi } from "./LoginApi";
+import { toast } from "react-toastify";
 
 const loginApi = new LoginApi();
 function Login() {
@@ -13,25 +14,29 @@ function Login() {
     const field = event.target.name;
     const value = event.target.value;
     const newState = { ...formState };
+    console.log(newState);
     newState[field] = value;
     setFormState(newState);
   }
-  async function login(formState) {
+  
+  async function login(event) {
+    event.preventDefault();
     const response = await loginApi.login(formState);
     const messageResponse = response.data;
-    // if (messageResponse.responseType === "SUCCESS") {
-    //   toast.success(messageResponse.message);
-    // }
+    // console.log(messageResponse)
+
+     if (messageResponse.responseType === "SUCCESS") {
+      toast.success(messageResponse.message);
+    navigate("/AdminPage");
+    // console.log("hey")
+    }
+    else{
+      toast.error(messageResponse.message);
+    }
+    
   }
 
-  function signIn(e) {
-    e.preventDefault();
-    navigate("/AdminPage");
-  }
-  function signUp(e) {
-    e.preventDefault();
-    navigate("/Register");
-  }
+
   return (
     <form className="Form">
       <div className="sub-main">
@@ -57,7 +62,7 @@ function Login() {
           />
           {/* <p>{userName}, {password}</p> */}
           <div className="login-button">
-            <button onClick={signIn}>SIGN IN</button>
+            <button onClick={login}>SIGN IN</button>
           </div>
           <NavLink to="/Register" className="forgotPassword">
             Forget Password ?
@@ -69,3 +74,4 @@ function Login() {
 }
 
 export default Login;
+
