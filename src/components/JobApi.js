@@ -8,4 +8,13 @@ export class JobApi {
   addJobs(formState) {
     return axios.post("/jobs", formState);
   }
+
+  updateJob(id, newData) {
+    return axios.put("/jobs/" + id, newData);
+  }
+
+  deleteJob(id) {
+    return axios.delete("/jobs/" + id);
+  }
 }
+
