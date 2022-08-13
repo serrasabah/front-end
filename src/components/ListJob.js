@@ -118,7 +118,7 @@ function ListJob() {
                   renderHeader: () => {
                     return (
                       <IconButton
-                        onClick={chartCell}
+                        onClick={deleteCell}
                       >
               
                       <EqualizerIcon color="secondary" />
