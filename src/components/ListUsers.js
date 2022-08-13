@@ -14,24 +14,15 @@ const columns = [
   {
     field: "username",
     headerName: "Username",
-    width: 100,
+    width: 150,
   },
 
   {
-    field: "password",
-    headerName: "password",
-    width: 200,
+    field: "role",
+    headerName: "role",
+    width: 80,
   },
-  {
-    field: "update",
-    headerName: "update",
-    width: 60,
-  },
-  {
-    field: "delete",
-    headerName: "delete",
-    width: 50,
-  },
+
 ];
 
 function ListUsers() {
@@ -63,7 +54,7 @@ function ListUsers() {
     <Box
       sx={{
         height: "450px",
-        width: "120vh",
+        width: "60vh",
         margin: "20vh",
         marginLeft: "50vh",
       }}
