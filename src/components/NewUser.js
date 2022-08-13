@@ -2,47 +2,45 @@ import { useState } from "react";
 import { Navigate, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import * as React from "react";
+import { useGridApiContext } from "@mui/x-data-grid";
+import { UserApi } from "./UserApi";
+import { toast } from "react-toastify";
 
+const userApi = new UserApi();
 function NewUser() {
-  const [userName, setuserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [roles, setRoles] = useState("");
-
+  
+  const [formState, setFormState] = useState({});
   const navigate = useNavigate();
 
-  const [checkedAdmin, setCheckedAdmin] = React.useState(false);
-  const [checkedUser, setCheckedUser] = React.useState(false);
-  const [error, setError] = useState("");
-  //buraa
-  const handleChangeAdmin = () => {
-    if (checkedAdmin && checkedUser) {
-      setError("detais do not match");
-    }
-  };
+  function onFormInputChange(event) {
+    const field = event.target.name;
+    const value = event.target.value;
+    const newState = { ...formState };
+    console.log(field);
+    newState[field] = value;
+    console.log(newState);
+    setFormState(newState);
+  }
 
-  const handleChangeUser = () => {
-    setCheckedUser(!checkedUser);
-    console.log("User");
-  };
+  async function addUsers(formState) {
+    const response = await userApi.addUsers(formState);
+    const messageResponse = response.data;
+     if (messageResponse.responseType === "SUCCESS") {
+       toast.success(messageResponse.message);
+   }
+   else{
+    toast.error(messageResponse.message);
+   }
+  }
 
   function createUser(e) {
     e.preventDefault();
-    // const match = { roles }.toString().split(", ");
-    // console.log(match);
-    // for (var a in match) {
-    //   var variable = match[a];
-    //   console.log(" ");
-    //   console.log(variable);
-    // }
-
-    //SORR!!!!!!!!
-    //eğer role kısmında ilk kelime admin ise AdminPage sayfasına yönlendir.
-    //eğer role user ise UserPage Sayfasına yönlendir
-    navigate("/AdminPage");
+    addUsers(formState);
+    navigate("/ListUsers");
   }
 
   return (
-    <form className="Form">
+    <div className="Form">
       <div className="sub-main">
         <h2>New User</h2>
         <div className="createhr">
@@ -51,10 +49,8 @@ function NewUser() {
             type="text"
             placeholder="user name"
             className="name"
-            value={userName}
-            onChange={(event) => {
-              setuserName(event.target.value);
-            }}
+            name="username"
+            onChange={onFormInputChange}
           />
           <br />
           <br />
@@ -63,10 +59,8 @@ function NewUser() {
             type="password"
             placeholder="password"
             className="name"
-            value={password}
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
+            name="password"
+            onChange={onFormInputChange}
           />
           <br />
           <br />
@@ -74,16 +68,18 @@ function NewUser() {
           <label>
             <input
               type="checkbox"
-              checked={checkedAdmin}
-              onChange={handleChangeAdmin}
+              name="role"
+              value="admin"
+            onChange={onFormInputChange}
             />
             Admin
           </label>
           <label>
             <input
               type="checkbox"
-              checked={checkedUser}
-              onChange={handleChangeUser}
+              name="role"
+              value="user"
+            onChange={onFormInputChange}
             />
             User
           </label>
@@ -92,7 +88,7 @@ function NewUser() {
           <button onClick={createUser}>CREATE</button>
         </div>
       </div>
-    </form>
+    </div>
   );
 }
 
