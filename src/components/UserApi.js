@@ -5,7 +5,7 @@ export class UserApi {
     return axios.get("/user");
   }
 
-  // addUsers(formState) {
-  //   return axios.post("/user", formState);
-  // }
+  addUsers(formState) {
+    return axios.post("/user", formState);
+  }
 }
