@@ -1,9 +1,7 @@
-import { useState } from "react";
-import { Navigate, NavLink } from "react-router-dom";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as React from "react";
-import { useGridApiContext } from "@mui/x-data-grid";
-import { UserApi } from "./UserApi";
+import { UserApi } from "../../Api/UserApi";
 import { toast } from "react-toastify";
 
 const userApi = new UserApi();
@@ -11,6 +9,13 @@ function NewUser() {
   
   const [formState, setFormState] = useState({});
   const navigate = useNavigate();
+  const [username, setUsername] = useState(window.localStorage.getItem("username"));
+
+  useEffect(() => {
+      if(!username){
+        navigate("/Login");
+      }
+  }, []);
 
   function onFormInputChange(event) {
     const field = event.target.name;
@@ -29,14 +34,23 @@ function NewUser() {
        toast.success(messageResponse.message);
    }
    else{
-    toast.error(messageResponse.message);
+    toast.warning(messageResponse.message);
    }
   }
 
   function createUser(e) {
     e.preventDefault();
+    if(!formState.username || !formState.password || !formState.role){
+      toast.warning("Boş geçilemez");
+    }else{
     addUsers(formState);
     navigate("/ListUsers");
+    }
+  }
+
+  function returnHomePage(e) {
+    e.preventDefault();
+    navigate("/AdminPage");
   }
 
   return (
@@ -69,7 +83,7 @@ function NewUser() {
             <input
               type="checkbox"
               name="role"
-              value="admin"
+              value="ADMIN"
             onChange={onFormInputChange}
             />
             Admin
@@ -78,14 +92,17 @@ function NewUser() {
             <input
               type="checkbox"
               name="role"
-              value="user"
+              value="USER"
             onChange={onFormInputChange}
             />
             User
           </label>
         </div>
-        <div className="create-button">
-          <button onClick={createUser}>CREATE</button>
+        <div className="home">
+          <div className="login-button">
+            <button onClick={returnHomePage}>Home</button>{" "}
+            <button onClick={createUser}>CREATE</button>
+          </div>
         </div>
       </div>
     </div>
@@ -93,4 +110,3 @@ function NewUser() {
 }
 
 export default NewUser;
-
