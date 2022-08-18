@@ -1,21 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navigate, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { JobApi } from "./JobApi";
+//import { JobApi } from ".../";
+import {JobApi} from "../../Api/JobApi"
 import { toast } from "react-toastify";
 
 
 const jobApi = new JobApi();
 function AddJob() {
+
   const [formState, setFormState] = useState({});
+  const [username, setUsername] = useState(window.localStorage.getItem("username"));
+
 
   function onFormInputChange(event) {
     const field = event.target.name;
     const value = event.target.value;
     const newState = { ...formState };
     newState[field] = value;
-    setFormState(newState);
+    setFormState(newState);  
   }
+  
   async function addJob(formState) {
     const response = await jobApi.addJobs(formState);
     const messageResponse = response.data;
@@ -30,14 +35,24 @@ function AddJob() {
   const navigate = useNavigate();
   function returnListPage(e) {
     e.preventDefault();
-    addJob(formState);
-    navigate("/ListJob");
-    
+    if(!formState.jobName || !formState.URL || !formState.period || !formState.timeout){
+      toast.warning("Boş geçilemez");
+    }else{
+      addJob(formState);
+      navigate("/ListJob");
+    }
   }
+
   function returnHomePage(e) {
     e.preventDefault();
-    navigate("/AdminPage");
+    navigate("/ListJob");
   }
+
+  useEffect(() => {
+    if(!username){
+      navigate("/Login");
+    }
+}, []);
 
   return (
     <form className="Form">
@@ -84,8 +99,8 @@ function AddJob() {
           />
         </div>
         <div className="home">
-          <div className="createJob-button">
-            <button onClick={returnHomePage}>Home</button>
+          <div className="login-button">
+            <button onClick={returnHomePage}>Home</button>{" "}
             <button onClick={returnListPage}>CREATE</button>
           </div>
         </div>
