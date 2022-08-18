@@ -1,46 +1,51 @@
 // import { Navigate, NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import {useLocation} from 'react-router-dom';
+
 
 function AdminPage() {
   const navigate = useNavigate();
+  const [username, setUsername] = useState(window.localStorage.getItem("username"));
 
+
+
+console.log(username);
   function createUser(e) {
     e.preventDefault();
-    // console.log("click");
     navigate("/ListUsers");
   }
 
-  //   function healthCheck(e) {
-  //     e.preventDefault();
-  //     // console.log("click");
-  //     navigate("/HealthCheckJob");
-  //   }
 
   function listJob(e) {
     e.preventDefault();
-    // console.log("click");
     navigate("/ListJob");
   }
 
-  //   function timeForm(e) {
-  //     e.preventDefault();
-  //     // console.log("click");
-  //     navigate("/TimeForm");
-  //   }
+  function logout(e){
+    e.preventDefault();
+    window.localStorage.clear();
+    navigate("/Login");
+  }
+  useEffect(() => {
+    if(!username){
+      navigate("/Login");
+    }
+}, []);
+  
 
   return (
     <form className="Form">
       <div className="sub-main">
         <div className="createhr">
-          <h2>Merhaba Admin: İsim</h2>
-
+          {/* <h2>Merhaba {location.state.name}</h2> */}
+          <h2>Merhaba {username} </h2> 
           <div className="admin-button">
+           
             <button onClick={createUser}>Users</button>
             <br /> <br />
-            {/* <button onClick={"healthCheck"}>List Users</button> <br /> <br /> */}
-            {/* <button onClick={"healthCheck"}>Healthcheck Job</button> <br />{" "} */}
             <button onClick={listJob}>List Job</button> <br /> <br />
-            {/* // <button onClick={"timeForm"}>Log Time Line Form</button> */}
+            <button onClick={logout}>Logout</button>
           </div>
         </div>
       </div>
@@ -49,4 +54,3 @@ function AdminPage() {
 }
 
 export default AdminPage;
-
